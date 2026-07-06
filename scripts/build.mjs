@@ -16,10 +16,6 @@ const baseManifest = {
     default_title: "ChatGPT Ding",
     default_popup: "options.html",
   },
-  background: {
-    service_worker: "assets/background.js",
-    type: "module",
-  },
   content_scripts: [
     {
       matches: ["https://chatgpt.com/*", "https://chat.openai.com/*"],
@@ -44,11 +40,21 @@ const baseManifest = {
 };
 
 const firefoxPatch = {
+  background: {
+    scripts: ["assets/background.js"],
+  },
   browser_specific_settings: {
     gecko: {
       id: "chatgpt-response-ding@example.local",
       strict_min_version: "109.0",
     },
+  },
+};
+
+const chromePatch = {
+  background: {
+    service_worker: "assets/background.js",
+    type: "module",
   },
 };
 
@@ -140,7 +146,7 @@ const writeOptionsHtml = async (outDir) => {
 };
 
 const writeManifest = async (target, outDir) => {
-  const manifest = target === "firefox" ? { ...baseManifest, ...firefoxPatch } : baseManifest;
+  const manifest = target === "firefox" ? { ...baseManifest, ...firefoxPatch } : { ...baseManifest, ...chromePatch };
   await writeFile(resolve(outDir, "manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
 };
 

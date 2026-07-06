@@ -7,10 +7,6 @@
     "default_title": "ChatGPT Ding",
     "default_popup": "options.html"
   },
-  "background": {
-    "service_worker": "assets/background.js",
-    "type": "module"
-  },
   "content_scripts": [
     {
       "matches": [
@@ -48,6 +44,11 @@
       ]
     }
   ],
+  "background": {
+    "scripts": [
+      "assets/background.js"
+    ]
+  },
   "browser_specific_settings": {
     "gecko": {
       "id": "chatgpt-response-ding@example.local",
