@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatGPT Ding Harness</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 24px;
+      }
+
+      main {
+        max-width: 720px;
+      }
+
+      article {
+        border: 1px solid #ccd5cf;
+        border-radius: 8px;
+        margin: 16px 0;
+        padding: 16px;
+      }
+
+      button {
+        margin-right: 8px;
+      }
+    </style>
+    <script>
+      window.__dingPlays = 0;
+      window.__runtimeMessages = [];
+
+      window.Audio = class MockAudio {
+        set volume(value) {
+          this._volume = value;
+        }
+
+        set currentTime(value) {
+          this._currentTime = value;
+        }
+
+        play() {
+          window.__dingPlays += 1;
+          document.querySelector("#plays").textContent = String(window.__dingPlays);
+          return Promise.resolve();
+        }
+      };
+
+      window.chrome = {
+        runtime: {
+          getURL: (path) => path,
+          sendMessage: async (message) => {
+            window.__runtimeMessages.push(message);
+            return { ok: true };
+          },
+        },
+        storage: {
+          sync: {
+            get: (defaults, callback) => callback(defaults),
+            set: (_values, callback) => callback?.(),
+          },
+          local: {
+            get: (defaults, callback) => callback(defaults),
+            set: (_values, callback) => callback?.(),
+          },
+        },
+      };
+    </script>
+  </head>
+  <body>
+    <main>
+      <h1>ChatGPT Ding Harness</h1>
+      <p>Ding plays: <strong id="plays">0</strong></p>
+      <button id="start" type="button">Start Simulated Response</button>
+      <button id="speechOnly" type="button">Speech Button Only</button>
+      <section id="conversation"></section>
+    </main>
+
+    <script src="../dist/chrome/assets/content.js"></script>
+    <script>
+      const conversation = document.querySelector("#conversation");
+
+      document.querySelector("#speechOnly").addEventListener("click", () => {
+        conversation.innerHTML = `
+          <article data-message-id="assistant-speech-only">
+            <div data-message-author-role="assistant">Already done</div>
+          </article>
+          <button data-testid="composer-speech-button">Voice</button>
+        `;
+      });
+
+      document.querySelector("#start").addEventListener("click", () => {
+        conversation.innerHTML = `
+          <article data-message-id="assistant-active">
+            <div data-message-author-role="assistant">Thinking</div>
+          </article>
+          <button data-testid="stop-button">Stop</button>
+        `;
+
+        window.setTimeout(() => {
+          conversation.querySelector('[data-message-author-role="assistant"]').textContent =
+            "Final response text.";
+        }, 600);
+
+        window.setTimeout(() => {
+          conversation.querySelector('[data-testid="stop-button"]').remove();
+        }, 1100);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatGPT Ding</title>
+    <script type="module" crossorigin src="/assets/options.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/options.css">
+  </head>
+  <body>
+    <main class="app">
+      <header>
+        <h1>ChatGPT Ding</h1>
+        <p>Sound when a response finishes.</p>
+      </header>
+
+      <label class="row">
+        <span>Enabled</span>
+        <input id="enabled" type="checkbox" />
+      </label>
+
+      <label class="row stack">
+        <span>Volume</span>
+        <input id="volume" type="range" min="0" max="1" step="0.05" />
+      </label>
+
+      <label class="row">
+        <span>Notification fallback</span>
+        <input id="notificationFallback" type="checkbox" />
+      </label>
+
+      <button id="testDing" type="button">Test Ding</button>
+      <p id="status" role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>

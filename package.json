@@ -1,0 +1,26 @@
+{
+  "name": "chatgpt-response-ding",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Chrome and Firefox extension that dings when ChatGPT finishes responding.",
+  "scripts": {
+    "build": "node scripts/build.mjs all",
+    "build:chrome": "node scripts/build.mjs chrome",
+    "build:firefox": "node scripts/build.mjs firefox",
+    "dev": "vite --host 127.0.0.1",
+    "package": "node scripts/package.mjs all",
+    "package:chrome": "node scripts/package.mjs chrome",
+    "package:firefox": "node scripts/package.mjs firefox",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7",
+    "vitest": "^2.1.8",
+    "jsdom": "^25.0.1",
+    "yazl": "^3.3.1"
+  }
+}
